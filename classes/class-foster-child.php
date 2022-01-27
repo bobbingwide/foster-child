@@ -12,20 +12,40 @@ class foster_child {
 	private $template; // name of the parent theme eg twentytwentytwo
 	private $template_theme; // WP_Theme object for the parent theme
 
+	private $theme_json; // name of the theme.json file
+	private $theme_json_theme; // WP_Theme object for the theme providing theme.json
+
 	function __construct() {
 		$this->child = null;
 	}
 
 	function run() {
-		$child = oik_batch_query_value_from_argv( 1, 't' . time() );
-		$template = oik_batch_query_value_from_argv( 2, 'twentytwentytwo' );
-		echo "Creating child theme $child for parent theme $template";
-		if ( !$this->validate_child_theme( $child ) ) {
-			echo "Error: Child theme already exists";
-			return;
+
+		$template = oik_batch_query_value_from_argv( 1, 'twentytwentytwo' );
+		$theme_json = oik_batch_query_value_from_argv( 2, $template );
+		if ( '.' === $theme_json || empty( $theme_json)  ) {
+			$theme_json = $template;
 		}
+		$child = oik_batch_query_value_from_argv( 3, 't' . time() );
+
+		$delete_child = oik_batch_query_value_from_argv( 'delete', 'n' );
+
+		echo "Creating child theme $child for parent theme $template with theme.json from $theme_json" . PHP_EOL;
+		if ( !$this->validate_child_theme( $child ) ) {
+			if ( 'y' !== $delete_child ) {
+				echo "Error: Child theme already exists";
+				return;
+			}
+			echo "Overwriting child: " . $child;
+		}
+
 		if ( !$this->validate_parent_theme( $template ) ) {
 			echo "Error: Parent theme no good";
+			return;
+		}
+
+		if ( !$this->validate_theme_json_theme( $theme_json ) ) {
+			echo "Error: theme json theme no good";
 			return;
 		}
 		$this->build_child_theme();
@@ -63,8 +83,21 @@ class foster_child {
 			return false;
 		}
 		return true;
+	}
 
-
+	function validate_theme_json_theme( $theme_json ) {
+		echo "Validating json theme: " . $theme_json . PHP_EOL;
+		$this->theme_json = $theme_json;
+		$this->theme_json_theme = wp_get_theme( $theme_json );
+		print_r( $this->theme_json_theme );
+		if ( !$this->theme_json_theme->exists()) {
+			return false;
+		}
+		if ( $this->template_theme->get_template() !== $this->template_theme->get_stylesheet() ) {
+			echo "Theme.json theme is already a child theme";
+			return false;
+		}
+		return true;
 	}
 
 	function build_child_theme() {
@@ -84,6 +117,7 @@ class foster_child {
 
 	}
 	function build_theme_json() {
+
 
 	}
 

@@ -3,6 +3,7 @@
 class foster_child_style_css {
 
 	private $style;
+
 	function __construct( $child, $parent_theme) {
 
 		$style = [];
@@ -15,7 +16,7 @@ class foster_child_style_css {
 		$style[] = ' Text domain: ' . $child;
 		$style[] = '*/';
 
-		print_r( $style );
+		//print_r( $style );
 		$this->style = $style;
 
 	}
