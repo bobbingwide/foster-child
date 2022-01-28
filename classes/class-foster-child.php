@@ -116,7 +116,16 @@ class foster_child {
 
 
 	}
+
 	function build_theme_json() {
+		if( $this->template === $this->theme_json ) {
+			return;
+		}
+		oik_require( 'classes/class-foster-child-theme-json.php', 'foster-child');
+		$theme_json = new foster_child_theme_json( $this->child, $this->theme_json_theme );
+		$theme_json_contents = $theme_json->get_contents();
+		$this->write_theme_file( 'theme.json', $theme_json_contents);
+
 
 
 	}
@@ -139,8 +148,8 @@ class foster_child {
 		$full_filename = $this->get_fullname_mkdir( $filename );
 		echo "writing theme file: $filename" . PHP_EOL;
 		echo "full file name: " . $full_filename . PHP_EOL;
-		echo $contents;
-		echo PHP_EOL;
+		//echo $contents;
+		//echo PHP_EOL;
 		file_put_contents( $full_filename, $contents);
 
 	}
