@@ -14,9 +14,8 @@ class foster_child_theme_json {
 	}
 
 	function get_contents() {
-
 		$theme_json_file = $this->get_theme_json_theme_folder( 'theme.json');
-		echo "Theme json file: " . $theme_json_file . PHP_EOL;
+		p( "Theme json file: " . $theme_json_file );
 		$contents = file_get_contents( $theme_json_file );
 		//$contents = implode( PHP_EOL, $this->style );
 		return $contents;

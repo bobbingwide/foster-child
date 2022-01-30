@@ -16,6 +16,7 @@ function foster_child_loaded() {
 	add_action( "run_foster-child.php", "foster_child_run" );
 	add_action( "plugins_loaded", "foster_child_plugins_loaded");
 	add_action( 'init', 'foster_child_init' );
+    //add_filter( "oik_query_autoload_classes" , "foster_child_query_autoload_classes" );
 }
 
 function foster_child_run() {
@@ -28,11 +29,14 @@ function foster_child_run() {
 
 function foster_child_init() {
 	add_shortcode( 'foster-child', 'foster_child_shortcode');
-	add_filter( "oik_query_autoload_classes" , "foster_child_query_autoload_classes" );
+
+	//oik_autoload();
 }
 
 function foster_child_shortcode( $atts, $content, $tag ) {
 	$html = "Foster child";
+	$foster_child_shortcode = new foster_child_shortcode();
+	$html = $foster_child_shortcode->run( $atts, $content, $tag );
 
 	return $html;
 }
@@ -64,6 +68,7 @@ function foster_child_boot_libs() {
 }
 
 function foster_child_enable_autoload() {
+    add_filter( "oik_query_autoload_classes" , "foster_child_query_autoload_classes" );
 	$lib_autoload=oik_require_lib( 'oik-autoload' );
 	if ( $lib_autoload && ! is_wp_error( $lib_autoload ) ) {
 		oik_autoload( true );
@@ -75,18 +80,34 @@ function foster_child_enable_autoload() {
 
 function foster_child_query_autoload_classes( $classes ) {
 	$classes[] = array( "class" => "foster_child_shortcode"
-	, "plugin" => "foster_class"
+	, "plugin" => "foster-child"
 	, "path" => "classes"
 	, 'file' => 'classes/class-foster-child-shortcode.php'
 	);
-	/*
-	$classes[] = array( "class" => "Git" ,
-	                    "plugin" => "oik-batch",
-	                    "path" => "includes",
-	                    "file" => "includes/class-git.php"
+
+	$classes[] = array( "class" => "foster_child" ,
+	                    "plugin" => "foster-child",
+	                    "path" => "classes",
+	                    "file" => "classes/class-foster-child.php"
 
 	);
-	*/
+
+    $classes[] = array( "class" => "foster_child_download" ,
+        "plugin" => "foster-child",
+        "path" => "classes",
+        "file" => "classes/class-foster-child-download.php"
+
+    );
+
+    $classes[] = array( 'class' => 'OIK_Patterns_From_Htm',
+        'plugin' => 'oik-patterns',
+        'path' => 'libs',
+        'file' => 'libs/class-oik-patterns-from-htm.php'
+        );
+
+
+
+    //print_r( $classes );
 	return( $classes );
 }
 
