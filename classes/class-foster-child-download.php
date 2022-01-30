@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @copyright (C) Copyright Bobbing Wide 2022
+ * @package foster-child
+ */
+
 class foster_child_download
 {
 
@@ -20,11 +25,13 @@ class foster_child_download
 
     }
 
+    /**
+     * Runs the Download action.
+     */
     function run_download() {
         $this->create_theme_zip();
         $this->download_theme_zip();
     }
-
 
     /**
      * Creates a child theme zip file.
@@ -66,8 +73,7 @@ class foster_child_download
      * Output a ZIP file with an export of the current templates
      * and template parts from the site editor, and close the connection.
      */
-    function gutenberg_edit_site_export_theme( $theme )
-    {
+    function gutenberg_edit_site_export_theme( $theme ) {
         // Sanitize inputs.
         $theme['name'] = sanitize_text_field($theme['name']);
         $theme['description'] = sanitize_text_field($theme['description']);
@@ -81,7 +87,11 @@ class foster_child_download
         gutenberg_edit_site_export_theme_create_zip($filename, $theme);
     }
 
-
+    /**
+     * Downloads the temporary zip file.
+     *
+     * bw_ret() discards any other HTML output from the shortcode.
+     */
      function download_theme_zip() {
         header( 'Content-Type: application/zip' );
         header( 'Content-Disposition: attachment; filename=' . $this->child . '.zip' );

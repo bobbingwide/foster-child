@@ -4,16 +4,25 @@ class foster_child_style_css {
 
 	private $style;
 
-	function __construct( $child, $parent_theme) {
+	function __construct( $child, $parent_theme, $theme_json_theme ) {
 
+	    $description = " Description: ";
+	    $description .= sprintf( __( "Child theme of %s with theme.json from %s"),
+                                    $parent_theme->display( 'Name'),
+                                    $theme_json_theme->display( 'Name')
+                                );
 		$style = [];
 		$style[] = '/*';
 		$style[] = ' Theme Name: ' . $child;
-		$style[] = ' Description: Child theme of ' . $parent_theme->display( 'Name');
+		$style[] = $description;
 		$style[] = ' Version: 0.0.0';
 		$style[] = ' Tags: full-site-editing';
 		$style[] = ' Template: ' . $parent_theme->get_template(); // For when the parent theme is itself a child theme
 		$style[] = ' Text domain: ' . $child;
+		$style[] = ' Author: ' . $parent_theme->display( 'Author');
+		$style[] = ' Author URI: ' . bw_current_url();
+		$style[] = ' License: GPL-2.0+';
+		$style[] = ' License URI: http://www.gnu.org/licenses/gpl-2.0.html';
 		$style[] = '*/';
 
 		//print_r( $style );

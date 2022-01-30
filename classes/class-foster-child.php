@@ -199,7 +199,7 @@ class foster_child {
 
 	function get_style_css() {
         oik_require('classes/class-foster-child-style-css.php', 'foster-child');
-        $style = new foster_child_style_css($this->child, $this->template_theme);
+        $style = new foster_child_style_css($this->child, $this->template_theme, $this->theme_json_theme );
         $style_contents = $style->get_contents();
         return $style_contents;
     }
