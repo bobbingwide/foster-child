@@ -3,8 +3,8 @@
 /**
 Plugin Name: foster-child
 Plugin URI: https://www.oik-plugins.com/oik-plugins/foster-child
-Description: Creates a child FSE theme
-Version: 0.0.0
+Description: Create FSE child themes
+Version: 0.1.0
 Author: bobbingwide
 Author URI: https://www.oik-plugins.com/author/bobbingwide
 Text Domain: foster-child
