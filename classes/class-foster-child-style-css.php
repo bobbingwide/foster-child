@@ -20,7 +20,7 @@ class foster_child_style_css {
 		$style[] = ' Template: ' . $parent_theme->get_template(); // For when the parent theme is itself a child theme
 		$style[] = ' Text domain: ' . $child;
 		$style[] = ' Author: ' . $parent_theme->display( 'Author');
-		$style[] = ' Author URI: ' . bw_current_url();
+		$style[] = ' Author URI: ';
 		$style[] = ' License: GPL-2.0+';
 		$style[] = ' License URI: http://www.gnu.org/licenses/gpl-2.0.html';
 		$style[] = '*/';

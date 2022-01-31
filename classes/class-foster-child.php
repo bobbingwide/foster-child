@@ -74,11 +74,13 @@ class foster_child {
     function run_download() {
 	    $valid = $this->run_form();
 	    if ( !$valid ) {
+	        p( "There's something that needs fixing.");
 	        return;
         }
 	    $style_css = $this->get_style_css();
 	    $theme_json_contents = $this->get_theme_json_contents();
-	    $foster_child_download = new foster_child_download( $this->child, $this->child_theme, $style_css, $theme_json_contents );
+	    $readme_txt_contents = $this->get_readme_txt();
+	    $foster_child_download = new foster_child_download( $this->child, $this->child_theme, $style_css, $theme_json_contents, $readme_txt_contents );
 	    $foster_child_download->run_download();
     }
 
@@ -155,7 +157,7 @@ class foster_child {
 
 		$sanitized = sanitize_title_with_dashes( $child );
 		if ( $sanitized !== $child ) {
-		    p("Correct name from: $child to $sanitized" );
+		    p("Please correct child theme name from: $child to $sanitized" );
         }
 
 		return true;
@@ -168,7 +170,7 @@ class foster_child {
 			return false;
 		}
 		if ( $this->template_theme->get_template() !== $this->template_theme->get_stylesheet() ) {
-			echo "Parent theme is already a child theme";
+			p( "Parent theme $template is already a child theme" );
 			return false;
 		}
 		return true;
@@ -183,7 +185,7 @@ class foster_child {
 			return false;
 		}
 		if ( $this->template_theme->get_template() !== $this->template_theme->get_stylesheet() ) {
-			echo "Theme.json theme is already a child theme";
+			p( "Theme.json theme $theme_json is already a child theme" );
 			return false;
 		}
 		return true;
@@ -212,7 +214,11 @@ class foster_child {
 	function get_theme_json_contents() {
 	    oik_require( 'classes/class-foster-child-theme-json.php', 'foster-child');
         $theme_json = new foster_child_theme_json( $this->child, $this->theme_json_theme );
-        $theme_json_contents = $theme_json->get_contents();
+        $theme_json->load();
+        $theme_json->apply( 'contentSize');
+        $theme_json->apply( 'wideSize');
+        $theme_json_contents = $theme_json->get_adjusted();
+
         return $theme_json_contents;
 
     }
@@ -225,17 +231,37 @@ class foster_child {
 		$this->write_theme_file( 'theme.json', $theme_json_contents);
 	}
 
+
+    /**
+     * index.html is not needed for a child theme
+     */
 	function build_index_html() {
+
 
 	}
 
+    /**
+     * functions.php may not be needed for a child theme.
+     */
 	function build_functions_php() {
 
 	}
 
-	function build_readme_txt() {
+	function get_readme_txt() {
+        $readme_txt = new foster_child_readme_txt( $this->child, $this->template_theme, $this->theme_json_theme );
+        $readme_txt_contents = $readme_txt->get_contents();
+        return $readme_txt_contents;
+    }
 
-}
+    /**
+     * readme.txt isn't really needed for a child theme.
+     * But it can come in handy.
+     */
+	function build_readme_txt() {
+        $readme_txt_contents = $this->get_readme_txt();
+        $this->write_theme_file( 'readme.txt', $readme_txt_contents);
+
+    }
 
 
 

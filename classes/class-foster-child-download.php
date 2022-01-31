@@ -14,15 +14,16 @@ class foster_child_download
     private $filename;
     private $style_css;
     private $theme_json;
+    private $readme_txt;
 
-    function __construct( $child, $child_theme, $style_css, $theme_json ) {
+    function __construct( $child, $child_theme, $style_css, $theme_json, $readme_txt ) {
         $this->child = $child;
         $this->child_theme = $child_theme;
         $this->style_css = $style_css;
         $this->theme_json = $theme_json;
+        $this->readme_txt = $readme_txt;
         $this->filename = tempnam( get_temp_dir(), $child );
         p( "Downloading child theme: $child via " . $this->filename );
-
     }
 
     /**
@@ -52,19 +53,17 @@ class foster_child_download
         $zip->open( $this->filename, ZipArchive::OVERWRITE );
         $zip->addEmptyDir( $this->child );
 
-        // Add theme.json.
-        // Add screenshot.png.
+       $zip->addFromString( $this->child . '/style.css', $this->style_css );
 
-        $zip->addFromString( $this->child . '/style.css', $this->style_css );
 
-        //$style_css =
-        //$zip->addFile(
-        //    __DIR__ . '/screenshot.png',
-        //    $theme['slug'] . '/screenshot.png'
-       // );
         $zip->addFromString($this->child . '/theme.json', $this->theme_json );
 
-        // @TODO Add readme.txt, screenshot.png
+        // Add readme.txt
+        $zip->addFromString($this->child . '/readme.txt', $this->readme_txt );
+
+        // @TODO Add a screenshot.png file. 1200 x 900 pixels.
+
+        //$zip->addFile(   __DIR__ . '/screenshot.png', $theme['slug'] . '/screenshot.png' );
         // Save changes to the zip file.
         $zip->close();
     }

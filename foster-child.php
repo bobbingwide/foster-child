@@ -105,6 +105,12 @@ function foster_child_query_autoload_classes( $classes ) {
         'file' => 'libs/class-oik-patterns-from-htm.php'
         );
 
+    $classes[] = array( 'class' => 'foster_child_readme_txt',
+        'plugin' => 'foster-child',
+        'path' => 'classes',
+        'file' => 'classes/class-foster-child-readme-txt.php'
+        );
+
 
 
     //print_r( $classes );
