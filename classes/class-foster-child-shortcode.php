@@ -82,15 +82,21 @@ class foster_child_shortcode
         sdiv( $class );
         bw_form();
         stag( "table" );
-        BW_::bw_select( 'preview_theme', "Preview theme", $current_stylesheet, [ '#options' => $themes ] );
+        BW_::bw_select( 'preview_theme', "Theme style", $current_stylesheet, [ '#options' => $themes ] );
         // Using preview theme for oik-patterns to use.
         //BW_::bw_textfield( 'preview_theme', 30, "Preview theme", null, 'textBox');
+        stag( "tr");
+        stag( 'td');
+        $this->submit_button( 'Preview theme', 'preview'  );
+        etag( 'td');
+        etag( "tr");
+
+
+        BW_::bw_select( "template", __( "Parent theme", "oik" ), $current_template,[ '#options' => $themes ] );
         BW_::bw_textfield( 'contentSize', 10, __('Content size', ''), 800, null, null, [ '#type' => 'number'] );
         BW_::bw_textfield( 'wideSize', 10, __('Wide size', ''), 1200, null, null, [ '#type' => 'number'] );
-        etag( "table" );
-        $this->submit_button( 'Preview theme', 'preview' );
-        stag( "table" );
-        BW_::bw_select( "template", __( "Parent theme", "oik" ), $current_template,[ '#options' => $themes ] );
+        $units = bw_assoc( bw_as_array( 'px,em,rem,vh,vw,%') );
+        BW_::bw_select( 'unit', __( 'Width unit'), 'px', ['#options' => $units ] );
         BW_::bw_textfield( "child", 30, __( "Child theme name", "oik" ), null, "textBox", "!required" );
         etag( "table" );
         e( wp_nonce_field( "_oik_form", "_oik_nonce", false, false ) );
