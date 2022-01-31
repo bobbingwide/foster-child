@@ -1,14 +1,45 @@
-# foster-child
-Creates a child theme for a Full Site Editing theme
+# foster-child 
+![banner](assets/foster-child-banner-772x250.jpg)
+* Contributors: bobbingwide, vsgloik
+* Donate link: https://www.oik-plugins.com/oik/oik-donate/
+* Tags: child-theme, generator, full-site-editing
+* Requires at least: 5.9
+* Tested up to: 5.9
+* Stable tag: 0.1.0
 
-### Requirements
-- To be able to create a Full Site Editing child theme based on an existing FSE theme.
-- If the existing theme is already a child theme then create a new theme using the theme.json file 
-- If the existing theme is not a child theme then start with an empty theme.json file
-- UI to allow the user to define the standard things needed in `style.css` 
-- Add logic to support the required fonts
-- If run from a hosting server deliver a zip file that can be downloaded
-- If run in a local install then install it in the theme's folder 
+## Description 
 
-That seems to be enough for the time being.
-Wonder how easy it's going to be?
+The Foster child plugin creates child themes for Full Site Editing themes.
+
+The Foster child plugin provides a shortcode to enable you to create a child theme from any Full Site Editing theme installed in your site.
+Choose the parent theme for the templates and another theme to provide the styling ( from theme.json ).
+Also apply some configuration changes such as content width and block gap.
+
+Create thousands of child themes without any programming.
+
+
+## Installation 
+1. Upload the contents of the foster-child plugin to the `/wp-content/plugins/foster-child' directory
+1. Activate the foster-child plugin through the 'Plugins' menu in WordPress
+1. Create a post or page containing the [foster-child] shortcode.
+1. Visit the post.
+1. Complete the fields in the form and choose Download zip.
+1. Save the generated .zip file.
+1. Install the generated child theme.
+
+
+## Screenshots 
+1. Foster-child shortcode
+
+## Upgrade Notice 
+# 0.1.0 
+Version for alpha testing on blocks.wp-a2z.org
+
+
+## Changelog 
+# 0.1.0 
+* Added: New plugin provides the [foster-child] shortcode to generate new child themes.
+* Tested: With WordPress 5.9
+* Tested: With Gutenberg 12.4.1
+* Tested: With PHP 8.0
+
