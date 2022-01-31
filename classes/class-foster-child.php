@@ -90,7 +90,7 @@ class foster_child {
      * @return bool
      */
     function run_form() {
-	    p( "Getting fields from form ");
+	    //p( "Getting fields from form ");
 	    $template = $this->get_template();
 	    $theme_json =$this->get_theme_json();
 	    $child = $this->get_child();
@@ -177,7 +177,7 @@ class foster_child {
 	}
 
 	function validate_theme_json_theme( $theme_json ) {
-		p( "Validating json theme: " . $theme_json );
+		//p( "Validating json theme: " . $theme_json );
 		$this->theme_json = $theme_json;
 		$this->theme_json_theme = wp_get_theme( $theme_json );
 		//print_r( $this->theme_json_theme );
@@ -215,8 +215,9 @@ class foster_child {
 	    oik_require( 'classes/class-foster-child-theme-json.php', 'foster-child');
         $theme_json = new foster_child_theme_json( $this->child, $this->theme_json_theme );
         $theme_json->load();
-        $theme_json->apply( 'contentSize');
-        $theme_json->apply( 'wideSize');
+        $theme_json->apply( 'contentSize' );
+        $theme_json->apply( 'wideSize' );
+        $theme_json->apply( 'blockGap' );
         $theme_json_contents = $theme_json->get_adjusted();
 
         return $theme_json_contents;

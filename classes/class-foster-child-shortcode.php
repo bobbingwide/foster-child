@@ -50,7 +50,7 @@ class foster_child_shortcode
     }
 
     function process_form_preview() {
-        BW_::p( "Processing preview");
+        //BW_::p( "Processing preview");
         $foster_child = new foster_child();
         $foster_child->run_preview();
     }
@@ -95,6 +95,7 @@ class foster_child_shortcode
         BW_::bw_select( "template", __( "Parent theme", "oik" ), $current_template,[ '#options' => $themes ] );
         BW_::bw_textfield( 'contentSize', 10, __('Content size', ''), 800, null, null, [ '#type' => 'number'] );
         BW_::bw_textfield( 'wideSize', 10, __('Wide size', ''), 1200, null, null, [ '#type' => 'number'] );
+        BW_::bw_textfield( 'blockGap', 10, __('Block gap', ''), 10, null, null, ['#type' => 'number'] );
         $units = bw_assoc( bw_as_array( 'px,em,rem,vh,vw,%') );
         BW_::bw_select( 'unit', __( 'Width unit'), 'px', ['#options' => $units ] );
         BW_::bw_textfield( "child", 30, __( "Child theme name", "oik" ), null, "textBox", "!required" );

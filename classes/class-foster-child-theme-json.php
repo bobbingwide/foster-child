@@ -72,6 +72,12 @@ class foster_child_theme_json {
                 $unit = $this->validate_unit( $unit);
                 $this->theme_json->settings->layout->wideSize = $field_value . $unit;
                 break;
+
+            case 'blockGap':
+                $unit = $this->get_field_value( 'unit');
+                $unit = $this->validate_unit( $unit);
+                $this->theme_json->styles->spacing->blockGap = $field_value . $unit;
+
             default:
                 p( "Unrecognized field: $field");
 
