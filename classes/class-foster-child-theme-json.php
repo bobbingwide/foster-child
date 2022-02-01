@@ -60,23 +60,46 @@ class foster_child_theme_json {
         return $unit;
     }
 
+    /**
+     * Updates the field with the given value.
+     *
+     * The contentSize, wideSize and blockGap fields may be numeric, with a simple unit string.
+     * In this case we expect to get a field-unit input field as well.
+     * If not, then we just take what we've been given.
+     *
+     * @param $field
+     * @param $field_value
+     */
+
     function update_property( $field, $field_value ) {
 	    switch ( $field ) {
             case 'contentSize':
-                $unit = $this->get_field_value( 'unit');
-                $unit = $this->validate_unit( $unit);
-                $this->theme_json->settings->layout->contentSize = $field_value . $unit;
+                if ( is_numeric(  $field_value )) {
+                    $unit = $this->get_field_value('contentSize-unit');
+                    $unit = $this->validate_unit($unit);
+                    $this->theme_json->settings->layout->contentSize = $field_value . $unit;
+                } else {
+                    $this->theme_json->settings->layout->contentSize = $field_value;
+                }
                 break;
             case 'wideSize':
-                $unit = $this->get_field_value( 'unit');
-                $unit = $this->validate_unit( $unit);
-                $this->theme_json->settings->layout->wideSize = $field_value . $unit;
+                if ( is_numeric(  $field_value )) {
+                    $unit = $this->get_field_value('wideSize-unit');
+                    $unit = $this->validate_unit($unit);
+                    $this->theme_json->settings->layout->wideSize = $field_value . $unit;
+                } else {
+                    $this->theme_json->settings->layout->wideSize = $field_value;
+                }
                 break;
 
             case 'blockGap':
-                $unit = $this->get_field_value( 'unit');
-                $unit = $this->validate_unit( $unit);
-                $this->theme_json->styles->spacing->blockGap = $field_value . $unit;
+                if ( is_numeric(  $field_value )) {
+                    $unit = $this->get_field_value('blockGap-unit');
+                    $unit = $this->validate_unit($unit);
+                    $this->theme_json->styles->spacing->blockGap = $field_value . $unit;
+                } else {
+                    $this->theme_json->styles->spacing->blockGap = $field_value;
+                }
 
             default:
                 p( "Unrecognized field: $field");
