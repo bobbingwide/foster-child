@@ -17,11 +17,11 @@ class foster_child_theme_json {
 
 	function load( ) {
 	    $contents = $this->get_contents();
-	    $this->theme_json = json_decode( $contents );
+	    $this->theme_json = json_decode( $contents, true );
     }
 
     function get_adjusted() {
-	    $adjusted = json_encode( $this->theme_json, JSON_PRETTY_PRINT );
+	    $adjusted = json_encode( $this->theme_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
 	    return $adjusted;
     }
 
@@ -70,41 +70,73 @@ class foster_child_theme_json {
      * @param $field
      * @param $field_value
      */
-
     function update_property( $field, $field_value ) {
 	    switch ( $field ) {
             case 'contentSize':
                 if ( is_numeric(  $field_value )) {
                     $unit = $this->get_field_value('contentSize-unit');
                     $unit = $this->validate_unit($unit);
-                    $this->theme_json->settings->layout->contentSize = $field_value . $unit;
-                } else {
-                    $this->theme_json->settings->layout->contentSize = $field_value;
+                    $field_value .= $unit;
                 }
+                $this->property_set( 'settings.layout.contentSize', $field_value  );
                 break;
             case 'wideSize':
                 if ( is_numeric(  $field_value )) {
                     $unit = $this->get_field_value('wideSize-unit');
                     $unit = $this->validate_unit($unit);
-                    $this->theme_json->settings->layout->wideSize = $field_value . $unit;
-                } else {
-                    $this->theme_json->settings->layout->wideSize = $field_value;
+                    $field_value .= $unit;
                 }
+                $this->property_set( 'settings.layout.wideSize', $field_value  );
                 break;
 
             case 'blockGap':
+                //print_r( $this->theme_json );
+                //print_r( $this->theme_json->styles);
+                //print_r( $this->theme_json->styles->spacing);
+                // print_r( $this->theme_json->styles->spacing->blockGap );
                 if ( is_numeric(  $field_value )) {
                     $unit = $this->get_field_value('blockGap-unit');
                     $unit = $this->validate_unit($unit);
-                    $this->theme_json->styles->spacing->blockGap = $field_value . $unit;
-                } else {
-                    $this->theme_json->styles->spacing->blockGap = $field_value;
+                    $field_value .= $unit;
                 }
+                $this->property_set( 'styles.spacing.blockGap', $field_value  );
+                break;
 
             default:
                 p( "Unrecognized field: $field");
 
         }
+    }
+
+    /**
+     * Sets a nested array property to the given value.
+     *
+     * Creates empty parent arrays where necessary.
+     *
+     * @param $property property to set.  eg styles.spacing.blockGap
+     * @param $value value to set the property to eg 0px
+     */
+    function property_set( $property, $value ) {
+        $properties = $this->create_nested_array( $property, $value );
+        $this->theme_json = array_replace_recursive( $this->theme_json, $properties );
+    }
+
+    /**
+     * Creates a multi-dimensional array.
+     *
+     * Builds the array up inside out.
+     *
+     * @param $properties array structure defined as dot separated node. eg `styles.spacing.blockGap`
+     * @param $value value for final node. eg `0px`
+     * @return array
+     */
+    function create_nested_array( $properties, $value ) {
+        $explode = explode( '.', $properties );
+        $folder = $value;
+        for ( $counter = count($explode) - 1; $counter >= 0; $counter--) {
+            $folder = [$explode[$counter] => $folder];
+        }
+        return $folder;
     }
 
 }

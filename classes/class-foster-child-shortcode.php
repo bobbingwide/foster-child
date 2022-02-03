@@ -10,7 +10,6 @@ class foster_child_shortcode
 
     private $form_id;
 
-
     function __construct() {
         $form_id = 0;
     }
@@ -36,9 +35,9 @@ class foster_child_shortcode
                 p( "Invalid form submission");
             }
         }
-        //if ( !$process_form ) {
-            $this->display_form( $atts );
-        //}
+
+        $this->display_form( $atts );
+
         return bw_ret();
     }
 
@@ -56,10 +55,9 @@ class foster_child_shortcode
     }
 
     function process_form_download() {
-        BW_::p( "Processing download");
+        //BW_::p( "Processing download");
         $foster_child = new foster_child();
         $foster_child->run_download();
-
     }
 
     function submit_button( $label, $name ) {
@@ -95,8 +93,6 @@ class foster_child_shortcode
         $wideSize = $this->getwideSize();
         $blockGap = $this->getblockGap();
 
-
-
         BW_::bw_select( "template", __( "Parent theme", "oik" ), $current_template,[ '#options' => $themes ] );
         //BW_::bw_textfield( 'contentSize', 10, __('Content size', ''), $contentSize,null,  null, [ ] );
         $this->sizeunitfield( 'contentSize', 4, __('Content size'), $contentSize );
@@ -131,6 +127,7 @@ class foster_child_shortcode
         }
         return $wideSize;
     }
+
     function getblockGap() {
         $blockGap = wp_get_global_styles( array( 'spacing', 'blockGap' ) );
         if ( !is_scalar( $blockGap )) {
@@ -141,6 +138,8 @@ class foster_child_shortcode
 
     /**
      * Displays a numeric field followed by the unit field.
+     *
+     * When the field's not numeric then use a single input field.
      *
      * @param $name
      * @param $width
