@@ -66,6 +66,11 @@ class foster_child_shortcode
 
     function display_form( $atts ) {
         //BW_::p( "Displaying form");
+	    global $wp_version;
+	    if ( version_compare( $wp_version, '5.9') < 0 )  {
+	    	p( "WordPress 5.9 or higher required");
+	    	return;
+	    }
 
         $oik_patterns_from_htm = new OIK_Patterns_From_Htm();
         $oik_patterns_from_htm->list_themes();
